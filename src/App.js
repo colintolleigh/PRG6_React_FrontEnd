@@ -1,24 +1,21 @@
 import {useEffect, useState} from "react";
 import {Note} from "./Note";
 import {NewNote} from "./NewNote";
-import {BrowserRouter, Route} from "react-router-dom";
-import * as PropTypes from "prop-types";
+import {Route, Routes} from "react-router";
+import {BrowserRouter} from "react-router-dom";
 import {Layout} from "./Layout";
 import {Error} from "./Error";
 import {NoteDetail} from "./NoteDetail";
 
 const URI_COLLECTION = "https://docent.cmi.hro.nl/bootb/demo/notes"
 
-function Routes(props) {
-  return null;
-}
 
-Routes.propTypes = {children: PropTypes.node};
+// Routes.propTypes = {children: PropTypes.node};
 
 export function App() {
   const [notes, setNotes] = useState([]);
 
-  function loadNotes() {
+  const loadNotes = () => {
     fetch(URI_COLLECTION, {
       method: 'GET',
       headers: {
@@ -34,21 +31,17 @@ export function App() {
     loadNotes()
   }, [])
 
-  // const showNotes = notes.map((value, key) =>
-  //     <Note key={value.id} note={value} notesRefreshHandler={loadNotes()} />)
+  const showNotes = notes.map((value, key) =>
+      <Note key={value.id} note={value} notesRefresHandler={loadNotes}/>)
 
   return <BrowserRouter>
     <Routes>
       <Route path="/" element={<Layout/>}>
-        <Route index element={<Notes notes={notes} notesRefreshHandler={() => loadNotes()} />} />
-        <Route path="create" element={<NewNote notesRefreshHandler={() => loadNotes()} />}/>
+        <Route index element={showNotes} />
+        <Route path="create" element={<NewNote notesRefreshHandler={loadNotes} />}/>
         <Route path="notes./:id" element={<NoteDetail />} />
         <Route path="*" element={<Error />} />
       </Route>
-
-    {/*<h1>Hello Notes!</h1>*/}
-    {/*{showNotes}*/}
-    {/*<NewNote notesRefreshHandler={loadJson}/>*/}
     </Routes>
   </BrowserRouter>;
 }

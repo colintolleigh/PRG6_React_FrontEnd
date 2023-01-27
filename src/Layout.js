@@ -1,9 +1,10 @@
-import {Link, Outlet} from "react-router-dom";
+import {Link} from "react-router-dom";
+import {Outlet} from "react-router";
 
 export function Layout() {
 
     return <div><header>
-            <h1>Notes - Examples etc</h1>
+        <h1>Notes - Examples</h1>
     </header>
         <nav>
             <ul>
@@ -12,7 +13,8 @@ export function Layout() {
             </ul>
         </nav>
         <div>
-            <Outlet />
+            <Outlet/>
         </div>
     </div>
 }
+
